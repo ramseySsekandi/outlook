@@ -14,7 +14,7 @@ export const getSession = cache(async () => {
     // }
     const session = await decrypt(cookie as string);
     if (!session) return null;
-    const id = session.UserId as string;
+    const id = session.userId as string;
     // getting user from the db basing on the id in the session
     const user = await db.user.findUnique({
       where: {

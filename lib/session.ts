@@ -34,7 +34,6 @@ export async function createSession(user: User) {
   const payload = {
     userId: user.id,
     email: user.email,
-    password: user.password,
     username: user.username,
     expiresAt: expiresAt,
   };

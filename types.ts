@@ -12,7 +12,6 @@ export type RegisterProps = {
 export type IPayload = {
   email: string;
   username: string;
-  password: string;
   userId: string;
   expiresAt: Date;
 };

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import {
   Mail,
-  Search,
   Settings,
   Bell,
   HelpCircle,
@@ -13,6 +12,7 @@ import {
   Italic,
   UnderlineIcon,
   ChevronRight,
+  Search,
 } from "lucide-react";
 
 interface Email {
@@ -163,12 +163,6 @@ const OutlookInterface = () => {
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden relative">
         {/* Mobile Sidebar Overlay */}
-        {isMobileSidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-            onClick={toggleMobileSidebar}
-          />
-        )}
 
         {/* Sidebar */}
         <aside

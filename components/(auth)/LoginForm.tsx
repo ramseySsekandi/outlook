@@ -12,6 +12,7 @@ import { LoginProps } from "@/types";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const {
@@ -35,14 +36,20 @@ export default function LoginForm() {
         },
         body: JSON.stringify(data),
       });
-      if (!response.ok) {
+      if (response.status === 403) {
         // If the response is not ok, show an error message
+        setError("Wrong Credentials");
         toast.error("Login failed");
         router.push("/login");
-      } else {
+      } else if (response.status === 201) {
         toast.success("Logged In Successfully");
         router.push("/");
         console.log(response);
+      } else {
+        setError("Wrong Credentials");
+        setError("Wrong Credentials");
+        toast.error("Login failed");
+        router.push("/login");
       }
     } catch (error) {
       console.log(error);
@@ -89,6 +96,7 @@ export default function LoginForm() {
           {errors.password && (
             <span className="text-red-600">This field is required</span>
           )}
+
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -102,6 +110,7 @@ export default function LoginForm() {
           </button>
         </div>
       </div>
+      {error && <span className="text-red-600">{error}</span>}
 
       <Button
         type="submit"

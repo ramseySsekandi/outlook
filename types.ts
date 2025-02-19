@@ -20,5 +20,5 @@ export type IPayload = {
 export type AuthProps = {
   email: string;
   username: string;
-  password: string;
+  image: string;
 };

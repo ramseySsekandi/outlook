@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         {
-          data: null,
           error: "User already exists",
         },
         { status: 409 }
@@ -48,12 +47,12 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-        console.log(error)
-        return NextResponse.json(
-          {
-            error: "Failed to create user",
-          },
-          { status: 500 }
-        );
+    console.log(error);
+    return NextResponse.json(
+      {
+        error: "Failed to create user",
+      },
+      { status: 500 }
+    );
   }
 }

@@ -4,49 +4,62 @@ import bcrypt from "bcrypt";
 import { createSession } from "@/lib/session";
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-  const { email, password } = data;
-  const existingUser = await db.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (!existingUser) {
-    return NextResponse.json(
-      {
-        data: null,
-        error: "Wrong Credentials",
+  try {
+    const data = await request.json();
+    const { email, password } = data;
+    // Identify user by email
+    const existingUser = await db.user.findUnique({
+      where: {
+        email,
       },
-      { status: 403 }
+    });
+    // If User doesn't exist return an error
+    if (!existingUser) {
+      return NextResponse.json(
+        {
+          error: "Wrong Credentials",
+        },
+        { status: 403 }
+      );
+    }
+
+    // Verify correct password
+    const isCorrectPassword = await bcrypt.compare(
+      password,
+      existingUser.password
     );
-  } else {
+
+    // Wrong Password
+    if (!isCorrectPassword) {
+      return NextResponse.json(
+        {
+          error: "Wrong Credentials",
+        },
+        { status: 403 }
+      );
+    }
+
+    // creating a session
     await createSession(existingUser);
-  }
 
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    existingUser.password
-  );
+    // RETURN DATA FOR USER MINUS THE PASSWORD
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: removedPassword, ...others } = existingUser;
 
-  if (!isCorrectPassword) {
     return NextResponse.json(
       {
-        data: null,
-        error: "Wrong Credentials",
+        data: others,
+        message: "Logged In",
       },
-      { status: 403 }
+      { status: 201 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        error: "Failed to Login",
+      },
+      { status: 500 }
     );
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password: removedPassword, ...others } = existingUser;
-
-  return NextResponse.json(
-    {
-      data: others,
-      message: "Logged In",
-    },
-    { status: 201 }
-  );
 }

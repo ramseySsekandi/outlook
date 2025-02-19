@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { getSession } from "@/lib/DAL";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +25,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getSession()
+  if (!user) redirect('/login')
   return (
     <html lang="en">
       <body

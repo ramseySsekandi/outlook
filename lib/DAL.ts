@@ -4,6 +4,7 @@ import { cache } from "react";
 import { decrypt } from "./session";
 import { db } from "@/prisma/db";
 import { AuthProps } from "@/types";
+
 export const getUserSession = cache(async () => {
   try {
     const cookieStore = await cookies();
@@ -22,6 +23,14 @@ export const getUserSession = cache(async () => {
       select: { username: true, email: true, image: true, id: true },
     });
     return user as AuthProps;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+});
+export const getUsere = cache(async () => {
+  try {
+    console.log("hello");
   } catch (error) {
     console.log(error);
     return null;

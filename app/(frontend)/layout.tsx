@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import { getUserSession } from "../../lib/dal";
+import { getUserSession } from "@/lib/dal";
+
 export default async function FrontLayout({
   children,
 }: {

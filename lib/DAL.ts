@@ -4,7 +4,7 @@ import { cache } from "react";
 import { decrypt } from "./session";
 import { db } from "@/prisma/db";
 import { AuthProps } from "@/types";
-const getSession = cache(async () => {
+export const getUserSession = cache(async () => {
   try {
     const cookieStore = await cookies();
     const cookie = cookieStore.get("session")?.value;
@@ -27,4 +27,3 @@ const getSession = cache(async () => {
     return null;
   }
 });
-export default getSession;

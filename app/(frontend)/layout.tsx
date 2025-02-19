@@ -1,13 +1,12 @@
 import React, { ReactNode } from "react";
-import getSession from "@/lib/dal";
 import { redirect } from "next/navigation";
-
+import { getUserSession } from "@/lib/dal";
 export default async function FrontLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const user = await getSession();
+  const user = await getUserSession();
   if (!user) {
     return redirect("/login");
   }

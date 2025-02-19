@@ -28,7 +28,7 @@ export const getUserSession = cache(async () => {
     return null;
   }
 });
-export const getUsere = cache(async () => {
+export const getUser = cache(async () => {
   try {
     console.log("hello");
   } catch (error) {

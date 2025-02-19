@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import { getUserSession } from "@/lib/dal";
+import { getUserSession } from "@/utils/dal";
 
 // import { getUserSession } from "@/lib/dal";
 

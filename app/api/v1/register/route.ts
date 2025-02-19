@@ -6,11 +6,13 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     const { email, username, password } = data;
+    // Check whether User already exists
     const existingUser = await db.user.findUnique({
       where: {
         email,
       },
     });
+    // If User exists return error and null data
     if (existingUser) {
       return NextResponse.json(
         {
@@ -20,8 +22,10 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
+    // Hash the Password before Storing it in the DB
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create User with hashed password
     const newUser = await db.user.create({
       data: {
         username,
@@ -30,8 +34,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // EXTRACT PASSWORD FROM USER DATA TO PROTECT IT FROM ACCESS
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: returnedPassword, ...others } = newUser;
+    // return the data
     return NextResponse.json(
       {
         data: others,
@@ -41,6 +48,12 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.log(error);
+        console.log(error)
+        return NextResponse.json(
+          {
+            error: "Failed to create user",
+          },
+          { status: 500 }
+        );
   }
 }

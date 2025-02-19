@@ -10,10 +10,10 @@ export type RegisterProps = {
 };
 
 export type IPayload = {
-  email: string | null;
-  username: string | null;
-  password: string | null;
-  userId: string | null;
+  email: string;
+  username: string;
+  password: string;
+  userId: string;
   expiresAt: Date;
 };
 
